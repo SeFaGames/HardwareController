@@ -24,8 +24,8 @@ public class HardwareController {
 	//Hardware Konstanten
 	private static final int FIELD_SIZE = 8;
 	private static final int READ_SLEEP_MILLIS = 100;
-	static final int[] OUTPUT_PINS = {26,21,20,16,12,7,8,25};	//Reihenfolge wichtig
-	static final int[] INPUT_PINS = {22,10,9,11,5,6,13,19};
+	static final int[] OUTPUT_PINS = {26,21,20,16,12,7,25,24};	//Reihenfolge wichtig
+	static final int[] INPUT_PINS = {22,17,9,27,5,6,13,19};
 	static final int BUTTON_PIN = 18;
 	
 	
