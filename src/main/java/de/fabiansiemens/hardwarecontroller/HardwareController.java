@@ -163,6 +163,7 @@ public class HardwareController {
 	 */
 	public void setLed(int x, int y, boolean state) {
 		getLedMatrix().setPixel(x, y, state);
+		getLedMatrix().refresh();
 	}
 	
 	/**
