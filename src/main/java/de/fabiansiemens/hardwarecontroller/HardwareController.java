@@ -11,6 +11,13 @@ import com.pi4j.io.gpio.digital.DigitalOutput;
 import com.pi4j.io.gpio.digital.DigitalOutputConfigBuilder;
 import com.pi4j.io.gpio.digital.DigitalState;
 import com.pi4j.io.gpio.digital.PullResistance;
+import com.pi4j.io.spi.Spi;
+import com.pi4j.library.pigpio.PiGpio;
+import com.pi4j.plugin.pigpio.provider.gpio.digital.PiGpioDigitalInputProvider;
+import com.pi4j.plugin.pigpio.provider.gpio.digital.PiGpioDigitalOutputProvider;
+import com.pi4j.plugin.pigpio.provider.spi.PiGpioSpiProvider;
+
+import de.fabiansiemens.hardwarecontroller.led.LedMatrixComponent;
 
 /**
  * Core.
@@ -38,6 +45,8 @@ public class HardwareController {
 	private LinkedList<DigitalInput> inputs;
 	private DigitalInput button;
 	private Context pi4j;
+	private PiGpio pigpio;
+	private LedMatrixComponent matrix;
 	
 	/**
 	 * Erzeugt eine neue Instanz und konfiguriert die GPIOS
@@ -48,7 +57,16 @@ public class HardwareController {
 		this.outputs = new LinkedList<DigitalOutput>();
 		this.inputs = new LinkedList<DigitalInput>();
 		this.listener = new LinkedList<HardwareListener>();
-		this.pi4j = Pi4J.newAutoContext();
+		this.pigpio = PiGpio.newNativeInstance();
+		this.pi4j = Pi4J.newContextBuilder()
+				.noAutoDetect()
+				.add(	PiGpioSpiProvider.newInstance(pigpio),
+						PiGpioDigitalInputProvider.newInstance(pigpio),
+						PiGpioDigitalOutputProvider.newInstance(pigpio)
+				)
+				.build();
+		
+		this.matrix = new LedMatrixComponent(pi4j);
 		
 		//Erstelle Config für Output GPIOs
 		DigitalOutputConfigBuilder outputConfig = DigitalOutput.newConfigBuilder(pi4j)
@@ -96,6 +114,9 @@ public class HardwareController {
 					lis.onConfirmButtonPressed(this);
 				}
 		});
+		
+		//LED Matrix aktivieren
+		matrix.setEnabled(true);
 	}
 	
 	/**
@@ -107,6 +128,10 @@ public class HardwareController {
 			return new HardwareController();
 		
 		return INSTANCE;
+	}
+	
+	public LedMatrixComponent getLedMatrix() {
+		return matrix;
 	}
 	
 	/**
