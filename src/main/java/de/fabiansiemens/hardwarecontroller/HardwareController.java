@@ -116,6 +116,8 @@ public class HardwareController {
 		
 		//LED Matrix aktivieren
 		matrix.setEnabled(true);
+		matrix.clear();
+		matrix.refresh();
 	}
 	
 	/**
