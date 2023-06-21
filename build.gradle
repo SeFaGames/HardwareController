@@ -2,10 +2,10 @@ plugins {
     id 'java'
 }
 
-group = 'com.pi4j'
-version = '0.0.1'
+group = 'de.fabiansiemens'
+version = '1'
 
-description = """Pi4J :: MINIMAL EXAMPLE :: Sample minimal project"""
+description = """Software für HybridChess Hardware"""
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
