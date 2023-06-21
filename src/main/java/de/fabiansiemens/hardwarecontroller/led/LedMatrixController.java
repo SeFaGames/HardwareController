@@ -18,7 +18,7 @@ import de.fabiansiemens.hardwarecontroller.led.print.Symbol;
  * Implementatierung der LED Matrix.
  * Adaptiert aus folgender Quelle: {@link https://github.com/Pi4J/pi4j-example-crowpi/blob/main/src/main/java/com/pi4j/crowpi/components/events/SimpleEventHandler.java}
  */
-public class LedMatrixComponent extends MAX7219 {
+public class LedMatrixController extends MAX7219 {
     /**
      * Default SPI channel for the LED matrix on the CrowPi
      */
@@ -41,7 +41,7 @@ public class LedMatrixComponent extends MAX7219 {
      *
      * @param pi4j Pi4J context
      */
-    public LedMatrixComponent(Context pi4j) {
+    public LedMatrixController(Context pi4j) {
         this(pi4j, DEFAULT_CHANNEL, DEFAULT_BAUD_RATE);
     }
 
@@ -52,7 +52,7 @@ public class LedMatrixComponent extends MAX7219 {
      * @param channel SPI channel
      * @param baud    SPI baud rate
      */
-    public LedMatrixComponent(Context pi4j, int channel, int baud) {
+    public LedMatrixController(Context pi4j, int channel, int baud) {
         super(pi4j.create(buildSpiConfig(pi4j, channel, baud)));
     }
 

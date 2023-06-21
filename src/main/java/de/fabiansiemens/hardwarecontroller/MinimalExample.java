@@ -26,13 +26,14 @@ public class MinimalExample implements HardwareListener {
 		controller.shutdown();
 	}
 	
-	private static void printMatrix(boolean[][] matrix) {
+	private static void printMatrix(boolean[][] matrix, HardwareController controller) {
 		 System.out.println("Input  | A B C D E F G H  <-- Output");
 		  for(int row = 0; row < 8; row++) {
 			  System.out.print("     ");
 			  System.out.print(row+1);
 			  System.out.print(" | ");
 			  for(int col = 0; col < 8; col++){
+				  controller.setLed(col, row, matrix[col][row]);
 				  System.out.print(matrix[col][row] ? 1 : 0);
 				  System.out.print(" ");
 			  }
@@ -44,7 +45,7 @@ public class MinimalExample implements HardwareListener {
 	@Override
 	public void onConfirmButtonPressed(HardwareController controller) {
 		boolean[][] field = controller.readField();
-		printMatrix(field);
+		printMatrix(field, controller);
 		buttonPressCount++;
 	}
 }

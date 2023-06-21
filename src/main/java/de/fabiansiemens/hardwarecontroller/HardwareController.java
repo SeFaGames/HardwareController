@@ -11,13 +11,12 @@ import com.pi4j.io.gpio.digital.DigitalOutput;
 import com.pi4j.io.gpio.digital.DigitalOutputConfigBuilder;
 import com.pi4j.io.gpio.digital.DigitalState;
 import com.pi4j.io.gpio.digital.PullResistance;
-import com.pi4j.io.spi.Spi;
 import com.pi4j.library.pigpio.PiGpio;
 import com.pi4j.plugin.pigpio.provider.gpio.digital.PiGpioDigitalInputProvider;
 import com.pi4j.plugin.pigpio.provider.gpio.digital.PiGpioDigitalOutputProvider;
 import com.pi4j.plugin.pigpio.provider.spi.PiGpioSpiProvider;
 
-import de.fabiansiemens.hardwarecontroller.led.LedMatrixComponent;
+import de.fabiansiemens.hardwarecontroller.led.LedMatrixController;
 
 /**
  * Core.
@@ -46,7 +45,7 @@ public class HardwareController {
 	private DigitalInput button;
 	private Context pi4j;
 	private PiGpio pigpio;
-	private LedMatrixComponent matrix;
+	private LedMatrixController matrix;
 	
 	/**
 	 * Erzeugt eine neue Instanz und konfiguriert die GPIOS
@@ -66,7 +65,7 @@ public class HardwareController {
 				)
 				.build();
 		
-		this.matrix = new LedMatrixComponent(pi4j);
+		this.matrix = new LedMatrixController(pi4j);
 		
 		//Erstelle Config für Output GPIOs
 		DigitalOutputConfigBuilder outputConfig = DigitalOutput.newConfigBuilder(pi4j)
@@ -130,7 +129,7 @@ public class HardwareController {
 		return INSTANCE;
 	}
 	
-	public LedMatrixComponent getLedMatrix() {
+	public LedMatrixController getLedMatrix() {
 		return matrix;
 	}
 	
@@ -152,6 +151,16 @@ public class HardwareController {
 	 */
 	public void shutdown() {
 		pi4j.shutdown();
+	}
+	
+	/**
+	 * Quick Access für LED Manipulation, für breite Auswahl von LED Funktionen, verwende den {@link LedMatrixController} mittels {@link #getLedMatrix()}
+	 * @param x - X Position der LED
+	 * @param y - Y Position der LED
+	 * @param state - Zustand der LED (true = ON)
+	 */
+	public void setLed(int x, int y, boolean state) {
+		getLedMatrix().setPixel(x, y, state);
 	}
 	
 	/**
