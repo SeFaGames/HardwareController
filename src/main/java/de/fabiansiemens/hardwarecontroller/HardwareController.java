@@ -16,7 +16,7 @@ import com.pi4j.io.gpio.digital.PullResistance;
  * Diese Klasse stellt Funktionen zum Lesen des Feldes und zum Ändern von LEDs, sowie eine Listener/Observer Schnittstelle zur Verfügung
  * Eine Instanz dieser Klasse kann mit {@link HardwareController#getInstance()} abgerufen werden.
  * Alle weiteren Operationen finden nicht statisch, sondern auf dieser HardwareController Instanz statt.
- * Am Ende der Nutzung sollte {@link HardwareController#shutdown()} aufgerufen werden um den HardwareController ordnungsgemäß zu beenden.
+ * Am Ende der Nutzung sollte {@link HardwareController#shutdown()} aufgerufen werden um den HardwareController ordnungsgemäß zu beenden
  * @author Fabian Siemens
  */
 public class HardwareController {
