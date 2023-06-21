@@ -1,4 +1,4 @@
-module com.pi4j.example {
+module de.fabiansiemens.hardwarecontroller {
     // Pi4J MODULES
     requires com.pi4j;
     requires com.pi4j.plugin.pigpio;
@@ -7,6 +7,7 @@ module com.pi4j.example {
     // SLF4J MODULES
     requires org.slf4j;
     requires org.slf4j.simple;
+    
 	requires java.desktop;
 
     uses com.pi4j.extension.Extension;
