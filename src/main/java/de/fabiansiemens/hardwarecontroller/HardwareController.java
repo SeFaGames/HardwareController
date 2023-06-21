@@ -13,6 +13,8 @@ import com.pi4j.io.gpio.digital.DigitalState;
 import com.pi4j.io.gpio.digital.PullResistance;
 
 /**
+ * Core.
+ * 
  * Diese Klasse stellt Funktionen zum Lesen des Feldes und zum Ändern von LEDs, sowie eine Listener/Observer Schnittstelle zur Verfügung
  * Eine Instanz dieser Klasse kann mit {@link HardwareController#getInstance()} abgerufen werden.
  * Alle weiteren Operationen finden nicht statisch, sondern auf dieser HardwareController Instanz statt.
