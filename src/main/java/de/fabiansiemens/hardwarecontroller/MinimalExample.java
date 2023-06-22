@@ -46,7 +46,10 @@ public class MinimalExample implements HardwareListener {
 	public void onConfirmButtonPressed(HardwareController controller) {
 		boolean[][] field = controller.readField();
 		printMatrix(field, controller);
-		controller.blinkTrace(1, 1, 8, 8, 4);
+		controller.blinkTrace(0, 0, 7, 7, 4);
+		controller.blinkTrace(0, 4, 7, 4, 3);
+		controller.blinkTrace(4, 0, 4, 7, 3);
+		controller.blinkTrace(0, 0, 2, 1, 3);
 		controller.blinkFast(4, 4, 8);
 		buttonPressCount++;
 	}
