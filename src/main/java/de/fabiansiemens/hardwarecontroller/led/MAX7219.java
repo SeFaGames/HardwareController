@@ -147,6 +147,8 @@ public class MAX7219 {
     public void setPixel(int x, int y, boolean enabled) {
         // Ensure coordinates are within boundaries
         checkPixelBounds(x, y);
+        
+        x = mirror(y);
 
         // Generate bitmask and set/unset specific bit
         final byte mask = (byte) (1 << (WIDTH - 1 - x));
@@ -155,6 +157,18 @@ public class MAX7219 {
         } else {
             buffer[y] &= ~mask;
         }
+    }
+    
+    /**
+     * Die LEDs auf der Hardware scheinen gespiegelt angesteuert zu sein, daher benötigen wir eine Funktion die die Koordinate an der Feldmitte spiegelt
+     * @param n - Eingabezahl
+     * @return Eingabezahl gespiegelt an der Feldmitte (1 -> 8)
+     */
+    private int mirror(int n) {
+    	int axis = HEIGHT /2;				
+    	int distance = axis - n;			
+    	int mirroredN = axis + distance +1;	
+    	return mirroredN;
     }
 
     /**
