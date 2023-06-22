@@ -140,8 +140,8 @@ public class MAX7219 {
      * Enables or disables the pixel at the given X/Y position within the internal buffer.
      * This change will not be visible until {@link #refresh()} or {@link #refreshRow(int)} gets called.
      *
-     * @param x       X position to change
-     * @param y       Y position to change
+     * @param x       X position to change (starting from 0)
+     * @param y       Y position to change (starting from 0)
      * @param enabled Desired pixel state (true = ON, false = OFF)
      */
     public void setPixel(int x, int y, boolean enabled) {
