@@ -183,24 +183,30 @@ public class HardwareController {
 	
 	public void blinkTrace(int startX, int startY, int destX, int destY, int amount) {
 		byte[] originalbuffer = getLedMatrix().getBuffer().clone();
-		long distance = Math.round(Math.sqrt((destX - startX)^2 + (destY - startY)^2));
-		if(distance > 8)
-			return;
+		float steps;
+		float dx = destX - startX;
+		float dy = destY - startY;
 		
-		int numPxl = (int) distance;
-		for(; amount > 0; amount--)
-			for(int i = 0; i < numPxl; i++){
-				// map the counter to a normalized (0.0 to 1.0) value for lerp
-				// 0.0 = 0 % along the line, 0.5 = 50% along the line, 1.0 = 100% along the line
-				float perc = i/numPxl;
-				// linearly interpolate between the start / end points (and snap to whole pixels (casting to integer type))
-				int x = (int)lerp(startX, destX, perc);
-				int y = (int)lerp(startY, destY, perc);
-				// convert the x, y coordinate to pixels array index and render the point in black
-				setLed(x, y, true);
+		if(Math.abs(dx) > Math.abs(dy))
+			steps = Math.abs(dx);
+		else
+			steps = Math.abs(dy);
+		
+		dx = dx/steps;
+		dy = dy/steps;
+		
+		for(; amount > 0; amount--) {
+			float x = startX;
+			float y = startY;
+			
+			for (int i = 0 ; i <= steps; i++) {
+				setLed(Math.round(x), Math.round(y), true);
 				sleep(200);
-				setLed(x, y, false);
+				setLed(Math.round(x), Math.round(y), false);
+				x += dx;
+				y += dy;
 			}
+		}
 		
 		getLedMatrix().overwriteBuffer(originalbuffer);
 		getLedMatrix().refresh();
@@ -215,6 +221,7 @@ public class HardwareController {
 		}
 	}
 	
+	@Deprecated
 	private double lerp(float a, float b, float f)
 	{
 	    return a * (1.0 - f) + (b * f);

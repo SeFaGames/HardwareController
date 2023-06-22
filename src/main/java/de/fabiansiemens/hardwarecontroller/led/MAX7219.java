@@ -162,6 +162,7 @@ public class MAX7219 {
      * @param n - Eingabezahl
      * @return Eingabezahl gespiegelt an der Feldmitte (1 -> 8)
      */
+    @Deprecated
     private int mirror(int n) {
     	int axis = HEIGHT /2;				
     	int distance = axis - n;			
