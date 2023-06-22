@@ -2,6 +2,7 @@ package de.fabiansiemens.hardwarecontroller;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Vector;
 
 import com.pi4j.Pi4J;
 import com.pi4j.context.Context;
@@ -164,6 +165,41 @@ public class HardwareController {
 	public void setLed(int x, int y, boolean state) {
 		getLedMatrix().setPixel(x, y, state);
 		getLedMatrix().refresh();
+	}
+	
+	public void blinkFast(int x, int y, int amount) {
+		for(; amount > 0; amount --) {
+			setLed(x, y, true);
+			setLed(x, y, false);
+		}
+	}
+	
+	public void blinkTrace(int startX, int startY, int destX, int destY, int amount) {
+		byte[] originalbuffer = getLedMatrix().getBuffer().clone();
+		long distance = Math.round(Math.sqrt((destX - startX)^2 + (destY - startY)^2));
+		if(distance > 8)
+			return;
+		
+		int numPxl = (int) distance;
+		for(; amount > 0; amount--)
+			for(int i = 0; i < numPxl; i++){
+				// map the counter to a normalized (0.0 to 1.0) value for lerp
+				// 0.0 = 0 % along the line, 0.5 = 50% along the line, 1.0 = 100% along the line
+				float perc = i/numPxl;
+				// linearly interpolate between the start / end points (and snap to whole pixels (casting to integer type))
+				int x = (int)lerp(startX, destX, perc);
+				int y = (int)lerp(startY, destY, perc);
+				// convert the x, y coordinate to pixels array index and render the point in black
+				setLed(x, y, true);
+				setLed(x, y, false);
+			}
+		
+		getLedMatrix().overwriteBuffer(originalbuffer);
+	}
+	
+	private double lerp(float a, float b, float f)
+	{
+	    return a * (1.0 - f) + (b * f);
 	}
 	
 	/**

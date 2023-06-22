@@ -497,6 +497,16 @@ public class LedMatrixController extends MAX7219 {
     private static int getBitFromByte(byte value, int bit) {
         return (((value & 0xFF) >> bit) & 0x1);
     }
+    
+    public byte[] getBuffer() {
+    	return buffer;
+    }
+    
+    public void overwriteBuffer(byte[] buffer) {
+    	for(int i = 0; i < buffer.length && i < this.buffer.length; i++) {
+    		this.buffer[i] = buffer[i];
+    	}
+    }
 
     /**
      * Returns the current SPI instance for the LED matrix.
