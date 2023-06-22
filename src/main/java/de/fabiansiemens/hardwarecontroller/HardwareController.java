@@ -32,7 +32,7 @@ public class HardwareController {
 	
 	//Hardware Konstanten
 	private static final int FIELD_SIZE = 8;
-	private static final int READ_SLEEP_MILLIS = 100;
+	private static final int READ_SLEEP_MILLIS = 50;
 	static final int[] OUTPUT_PINS = {26,21,20,16,12,7,25,24};	//Reihenfolge wichtig
 	static final int[] INPUT_PINS = {19,13,6,5,27,9,17,22};
 	static final int BUTTON_PIN = 18;
@@ -153,13 +153,23 @@ public class HardwareController {
 	 * zu beenden.
 	 */
 	public void shutdown() {
+		clearLeds();
 		pi4j.shutdown();
 	}
 	
 	/**
+	 * Schneller Weg die LED Matrix zu leeren.
+	 * Der interne Buffer wird gelöscht und die Matrix aktualisiert.
+	 */
+	public void clearLeds() {
+		getLedMatrix().clear();
+		getLedMatrix().refresh();
+	}
+	
+	/**
 	 * Quick Access für LED Manipulation, für breite Auswahl von LED Funktionen, verwende den {@link LedMatrixController} mittels {@link #getLedMatrix()}
-	 * @param x - X Position der LED
-	 * @param y - Y Position der LED
+	 * @param x - X Position der LED (0-7)
+	 * @param y - Y Position der LED (0-7)
 	 * @param state - Zustand der LED (true = ON)
 	 */
 	public void setLed(int x, int y, boolean state) {
@@ -167,6 +177,12 @@ public class HardwareController {
 		getLedMatrix().refresh();
 	}
 	
+	/**
+	 * Lässt eine LED schnell blinken (Anwendung z.B: bei Fehlerhaften Positionen)
+	 * @param x - X Position der LED (0-7)
+	 * @param y - Y Position der LED (0-7)
+	 * @param amount - Wie oft geblinkt werden soll
+	 */
 	public void blinkFast(int x, int y, int amount) {
 		byte[] originalbuffer = getLedMatrix().getBuffer().clone();	//Nach blinken kann der vorherige Zustand des Bretts verändert sein
 		
@@ -181,6 +197,14 @@ public class HardwareController {
 		getLedMatrix().refresh();
 	}
 	
+	/**
+	 * Lässt eine Spur (blinkende Linie) von einem Startfeld zu einem Zielfeld aufblinken
+	 * @param startX - X Position vom Startfeld (0-7)
+	 * @param startY - Y Position vom Startfeld (0-7)
+	 * @param destX - X Position vom Zielfeld (0-7)
+	 * @param destY - Y Position vom Zielfeld (0-7)
+	 * @param amount - Wie oft diese Spur aufblinken soll
+	 */
 	public void blinkTrace(int startX, int startY, int destX, int destY, int amount) {
 		byte[] originalbuffer = getLedMatrix().getBuffer().clone();
 		float steps;
