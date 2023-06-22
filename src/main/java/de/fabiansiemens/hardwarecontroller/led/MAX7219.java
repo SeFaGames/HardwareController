@@ -146,7 +146,8 @@ public class MAX7219 {
      */
     public void setPixel(int x, int y, boolean enabled) {
         // Ensure coordinates are within boundaries
-        checkPixelBounds(x, y);
+        if(!checkPixelBounds(x, y))
+        	return;
 
         // Generate bitmask and set/unset specific bit
         final byte mask = (byte) (1 << (WIDTH - 1 - x));
@@ -179,7 +180,8 @@ public class MAX7219 {
      */
     public boolean getPixel(int x, int y) {
         // Ensure coordinates are within boundaries
-        checkPixelBounds(x, y);
+        if(!checkPixelBounds(x, y))
+        	return false;
 
         // Generate bitmask and retrieve specific bit
         final byte mask = (byte) (1 << (WIDTH - 1 - x));
@@ -193,13 +195,14 @@ public class MAX7219 {
      * @param x X coordinate to check
      * @param y Y coordinate to check
      */
-    private void checkPixelBounds(int x, int y) {
+    private boolean checkPixelBounds(int x, int y) {
         if (x < 0 || x >= WIDTH) {
-            throw new IllegalArgumentException("X must be an integer in the range 0-" + WIDTH);
+            return false;
         }
         if (y < 0 || y >= WIDTH) {
-            throw new IllegalArgumentException("Y must be an integer in the range 0-" + HEIGHT);
+            return false;
         }
+        return true;
     }
 
     /**
