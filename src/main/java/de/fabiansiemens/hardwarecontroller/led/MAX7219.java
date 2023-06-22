@@ -147,8 +147,6 @@ public class MAX7219 {
     public void setPixel(int x, int y, boolean enabled) {
         // Ensure coordinates are within boundaries
         checkPixelBounds(x, y);
-        
-        x = mirror(y);
 
         // Generate bitmask and set/unset specific bit
         final byte mask = (byte) (1 << (WIDTH - 1 - x));
