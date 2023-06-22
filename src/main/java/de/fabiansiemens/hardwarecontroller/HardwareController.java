@@ -168,10 +168,17 @@ public class HardwareController {
 	}
 	
 	public void blinkFast(int x, int y, int amount) {
+		byte[] originalbuffer = getLedMatrix().getBuffer().clone();	//Nach blinken kann der vorherige Zustand des Bretts verändert sein
+		
 		for(; amount > 0; amount --) {
 			setLed(x, y, true);
+			sleep(100);
 			setLed(x, y, false);
+			sleep(100);
 		}
+		
+		getLedMatrix().overwriteBuffer(originalbuffer);				//Daher wird der vorherige Zustand manuell wiederhergestellt
+		getLedMatrix().refresh();
 	}
 	
 	public void blinkTrace(int startX, int startY, int destX, int destY, int amount) {
@@ -191,10 +198,21 @@ public class HardwareController {
 				int y = (int)lerp(startY, destY, perc);
 				// convert the x, y coordinate to pixels array index and render the point in black
 				setLed(x, y, true);
+				sleep(200);
 				setLed(x, y, false);
 			}
 		
 		getLedMatrix().overwriteBuffer(originalbuffer);
+		getLedMatrix().refresh();
+	}
+	
+	private void sleep(long millis) {
+		try {
+			Thread.sleep(millis);
+		}
+		catch(InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private double lerp(float a, float b, float f)
