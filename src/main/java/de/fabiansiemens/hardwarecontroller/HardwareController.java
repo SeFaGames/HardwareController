@@ -47,12 +47,14 @@ public class HardwareController {
 	private Context pi4j;
 	private PiGpio pigpio;
 	private LedMatrixController matrix;
+	private volatile boolean enabled;
 	
 	/**
 	 * Erzeugt eine neue Instanz und konfiguriert die GPIOS
 	 */
 	private HardwareController() {
 		INSTANCE = this;
+		enabled = true;
 	
 		this.outputs = new LinkedList<DigitalOutput>();
 		this.inputs = new LinkedList<DigitalInput>();
@@ -136,6 +138,10 @@ public class HardwareController {
 		return matrix;
 	}
 	
+	public boolean isShutdown() {
+		return enabled;
+	}
+	
 	/**
 	 * Registriert einen Listener im Controller. Der Listener wird benachrichtigt, sobald der Confirm-Move Knopf gedrückt wurde
 	 * Wenn der übergebene Listener null ist, wird nichts hinzugefügt.
@@ -154,7 +160,9 @@ public class HardwareController {
 	 */
 	public void shutdown() {
 		clearLeds();
+		getLedMatrix().setEnabled(false);
 		pi4j.shutdown();
+		enabled = false;
 	}
 	
 	/**
@@ -194,6 +202,20 @@ public class HardwareController {
 		}
 		
 		getLedMatrix().overwriteBuffer(originalbuffer);				//Daher wird der vorherige Zustand manuell wiederhergestellt
+		getLedMatrix().refresh();
+	}
+	
+	public void setColumn(int x, boolean state) {
+		for(int i = 0; i < LedMatrixController.WIDTH; i++)
+			getLedMatrix().setPixel(x, i, state);
+		
+		getLedMatrix().refresh();
+	}
+	
+	public void setRow(int y, boolean state) {
+		for(int i = 0; i < LedMatrixController.HEIGHT; i++)
+			getLedMatrix().setPixel(i, y, state);
+		
 		getLedMatrix().refresh();
 	}
 	

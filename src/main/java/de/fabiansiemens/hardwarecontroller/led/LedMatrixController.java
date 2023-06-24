@@ -552,4 +552,12 @@ public class LedMatrixController extends MAX7219 {
          */
         REPLACE
     }
+    
+    /**
+     * Aktiviert alle LEDs und refresht die Matrix
+     */
+	public void enableAll() {
+		overwriteBuffer(new byte[]{(byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF});
+    	refresh();
+	}
 }

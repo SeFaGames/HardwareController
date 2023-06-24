@@ -12,11 +12,11 @@ public class MinimalExample implements HardwareListener {
 	public static void main(String[] args) throws Exception {
 		
 		HardwareController controller = HardwareController.getInstance();
-		controller.addListener(new MinimalExample());
-		
-		while(buttonPressCount < 5) {
+//		controller.addListener(new MinimalExample());
+		HardwareDebugger.runDebug(controller);
+		while(!controller.isShutdown()) {
 			try {
-				Thread.sleep(500);
+				Thread.sleep(50);
 			}
 			catch(InterruptedException e) {
 				e.printStackTrace();
