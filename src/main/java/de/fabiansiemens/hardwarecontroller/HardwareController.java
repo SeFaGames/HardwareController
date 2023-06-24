@@ -139,7 +139,7 @@ public class HardwareController {
 	}
 	
 	public boolean isShutdown() {
-		return enabled;
+		return !enabled;
 	}
 	
 	/**
