@@ -42,55 +42,55 @@ public class HardwareDebugger implements HardwareListener {
 	 */
 	public void executeDebugStep(int step) {
 		switch(step) {
-		case 0 -> 	{	//Alle LEDs leuchten lassen
-						controller.getLedMatrix().enableAll();
-					}
-		case 1 -> 	{	//Schachaufstellung
-						controller.clearLeds();
-						controller.setRow(0, true);
-						controller.setRow(1, true);
-						controller.setRow(6, true);
-						controller.setRow(7, true);
-					}
-		case 2 -> 	{	//Row für Row
-						for(int i = 0; i < 8; i++) {
-							controller.setRow(i, true);
-							sleep(100);
-							controller.setRow(i, false);
-						}
-					}
-		case 3 -> 	{	//Column für Column
-						for(int i = 0; i < 8; i++) {
-							controller.setColumn(i, true);
-							sleep(100);
-							controller.setColumn(i, false);
-						}
-					}
-		case 4 -> 	{	//Fast Blink
-						controller.blinkFast(4, 4, 10);
-					}
-		case 5 -> 	{	//Trace Column
-						controller.blinkTrace(0, 0, 0, 7, 3);
-					}
-		case 6 -> 	{	//Trace Row
-						controller.blinkTrace(0, 0, 7, 0, 3);
-					}
-		case 7 -> 	{	//Trace Diagonal
-						controller.blinkTrace(0, 0, 7, 7, 3);
-					}
-		case 8 -> 	{	//Trace Knight
-						controller.blinkTrace(0, 0, 1, 2, 5);
-					}
-		case 9 -> 	{	//Trace Stationary
-						controller.blinkTrace(0, 0, 0, 0, 3);
-					}
-		case 10 -> 	{	//Trace Stationary
-						controller.blinkTrace(-1, -1, -2, -2, -3);
-					}
-		case 11 ->	{
-						controller.getLedMatrix().print("White wins");
-					}
-		default -> controller.shutdown();
+		case 0:			//Alle LEDs leuchten lassen
+			controller.getLedMatrix().enableAll();
+		break;
+		case 1:	//Schachaufstellung
+			controller.clearLeds();
+			controller.setRow(0, true);
+			controller.setRow(1, true);
+			controller.setRow(6, true);
+			controller.setRow(7, true);
+		break;
+		case 2:	//Row für Row
+			for(int i = 0; i < 8; i++) {
+				controller.setRow(i, true);
+				sleep(100);
+				controller.setRow(i, false);
+			}
+		break;
+		case 3:	//Column für Column
+			for(int i = 0; i < 8; i++) {
+				controller.setColumn(i, true);
+				sleep(100);
+				controller.setColumn(i, false);
+			}
+		break;
+		case 4:	//Fast Blink
+			controller.blinkFast(4, 4, 10);
+		break;
+		case 5:	//Trace Column
+			controller.blinkTrace(0, 0, 0, 7, 3);
+		break;
+		case 6:	//Trace Row
+			controller.blinkTrace(0, 0, 7, 0, 3);
+		break;
+		case 7:	//Trace Diagonal
+			controller.blinkTrace(0, 0, 7, 7, 3);
+		break;
+		case 8:	//Trace Knight
+			controller.blinkTrace(0, 0, 1, 2, 5);
+		break;
+		case 9:	//Trace Stationary
+			controller.blinkTrace(0, 0, 0, 0, 3);
+		break;
+		case 10:	//Trace Stationary
+			controller.blinkTrace(-1, -1, -2, -2, -3);
+		break;
+		case 11:
+			controller.getLedMatrix().print("White wins");
+		break;
+		default: controller.shutdown();
 		}
 	}
 	
