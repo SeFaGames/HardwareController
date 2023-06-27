@@ -12,8 +12,8 @@ public class MinimalExample implements HardwareListener {
 	public static void main(String[] args) throws Exception {
 		
 		HardwareController controller = HardwareController.getInstance();
-//		controller.addListener(new MinimalExample());
-		HardwareDebugger.runDebug(controller);
+		controller.addListener(new MinimalExample());
+//		HardwareDebugger.runDebug(controller);
 		while(!controller.isShutdown()) {
 			try {
 				Thread.sleep(50);
